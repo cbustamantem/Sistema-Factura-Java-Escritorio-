@@ -73,7 +73,7 @@
               <Font name="Ubuntu" size="18" style="0"/>
             </Property>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value=" Sistema de Facturaci&#xf3;n&#xa;&#xa; Christian Ramirez Castillo&#xa; Per&#xfa; - Lima 2015&#xa;&#xa; chriserc@outlook.com"/>
+            <Property name="text" type="java.lang.String" value=" Sistema de Facturaci&#xf3;n&#xa; Christian Ramirez Castillo&#xa; Per&#xfa; - Lima 2015&#xa; chriserc@outlook.com&#xa;&#xa;Refactored by&#xa;@cbustamantem&#xa;@eratzlaff"/>
           </Properties>
         </Component>
       </SubComponents>

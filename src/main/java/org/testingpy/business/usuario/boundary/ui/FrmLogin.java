@@ -1,18 +1,18 @@
-package org.testingpy.business.usuario.boundary;
+package org.testingpy.business.usuario.boundary.ui;
 
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.testingpy.business.factura.boundary.FrmPrincipal;
+import org.testingpy.business.factura.boundary.ui.FrmPrincipal;
+import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 
 public class FrmLogin extends javax.swing.JFrame {
-    private ControlladorFacturacion misDatos; 
+    private UsuarioManager usuarioMgr; 
 
     public FrmLogin() {
         initComponents();
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
+    public void setDatos(UsuarioManager misDatos) {
+        this.usuarioMgr = misDatos;
     }
     
         @SuppressWarnings("unchecked")
@@ -106,7 +106,7 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        
-        if (!misDatos.validarUsuario(txtUsuario.getText(), new String(txtPassword.getPassword()))) {
+        if (!usuarioMgr.validarUsuario(txtUsuario.getText(), new String(txtPassword.getPassword()))) {
             JOptionPane.showMessageDialog(rootPane, "Usuario o Clave incorrecto");
             txtUsuario.setText("");
             txtPassword.setText("");
@@ -116,8 +116,7 @@ public class FrmLogin extends javax.swing.JFrame {
         
         FrmPrincipal miPrincipal = new FrmPrincipal();
         this.setVisible(false);
-        miPrincipal.setDatos(misDatos);
-        miPrincipal.setPerfil(misDatos.getPerfil(txtUsuario.getText()));
+        miPrincipal.setPerfil(usuarioMgr.getPerfil(txtUsuario.getText()));
         miPrincipal.setClave(new String(txtPassword.getPassword()));
         miPrincipal.setUsuario(txtUsuario.getText());
         miPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.testingpy.business.factura.boundary;
+package org.testingpy.business.factura.boundary.ui;
 
 /**
  *
@@ -42,7 +42,7 @@ public class FrmAcercaDe extends javax.swing.JDialog {
         jTextArea1.setColumns(10);
         jTextArea1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText(" Sistema de Facturación\n\n Christian Ramirez Castillo\n Perú - Lima 2015\n\n chriserc@outlook.com");
+        jTextArea1.setText(" Sistema de Facturación\n Christian Ramirez Castillo\n Perú - Lima 2015\n chriserc@outlook.com\n\nRefactored by\n@cbustamantem\n@eratzlaff");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

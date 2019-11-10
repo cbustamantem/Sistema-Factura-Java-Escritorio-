@@ -1,14 +1,14 @@
-package org.testingpy.business.producto.boundary;
+package org.testingpy.business.producto.boundary.ui;
 
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
 import org.testingpy.business.producto.entities.Producto;
 import org.testingpy.clases.Utilidades;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.testingpy.business.producto.boundary.db.ProductoManager;
 
 public class FrmProductos extends javax.swing.JInternalFrame {
 
-    private ControlladorFacturacion misDatos;
+    private ProductoManager productoMgr;
     private int proAct = 0;
     private boolean nuevo = false;
     private DefaultTableModel miTabla;
@@ -16,27 +16,27 @@ public class FrmProductos extends javax.swing.JInternalFrame {
     public FrmProductos() {
         initComponents();
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
+    public void setDatos(ProductoManager misDatos) {
+        this.productoMgr = misDatos;
     }
     private void mostrarResgistro() {
-        txtIdProducto.setText(misDatos.getProductos()[proAct].getIdProducto());
-        txtDescripcion.setText(misDatos.getProductos()[proAct].getDescripcion());
-        txtPrecio.setText("" + misDatos.getProductos()[proAct].getPrecio());
-        cboIGV.setSelectedIndex((misDatos.getProductos()[proAct].getIGV()));
-        txtNota.setText(misDatos.getProductos()[proAct].getNota());
+        txtIdProducto.setText(productoMgr.getProductos()[proAct].getIdProducto());
+        txtDescripcion.setText(productoMgr.getProductos()[proAct].getDescripcion());
+        txtPrecio.setText("" + productoMgr.getProductos()[proAct].getPrecio());
+        cboIGV.setSelectedIndex((productoMgr.getProductos()[proAct].getIGV()));
+        txtNota.setText(productoMgr.getProductos()[proAct].getNota());
     }
     private void llenarTabla() {
         String titulos[] = { "ID Producto", "Descripcion", "Precio", "IGV", "Nota" };
         String registro[] = new String[5];
         miTabla = new DefaultTableModel(null, titulos);
         
-        for (int i = 0; i < misDatos.numeroProductos(); i++) {
-            registro[0] = misDatos.getProductos()[i].getIdProducto();
-            registro[1] = misDatos.getProductos()[i].getDescripcion();
-            registro[2] = "" + misDatos.getProductos()[i].getPrecio();
-            registro[3] = igv(misDatos.getProductos()[i].getIGV());
-            registro[4] = misDatos.getProductos()[i].getNota();
+        for (int i = 0; i < productoMgr.numeroProductos(); i++) {
+            registro[0] = productoMgr.getProductos()[i].getIdProducto();
+            registro[1] = productoMgr.getProductos()[i].getDescripcion();
+            registro[2] = "" + productoMgr.getProductos()[i].getPrecio();
+            registro[3] = igv(productoMgr.getProductos()[i].getIGV());
+            registro[4] = productoMgr.getProductos()[i].getNota();
             miTabla.addRow(registro);
         }
         tblProducto.setModel(miTabla);
@@ -445,7 +445,7 @@ public class FrmProductos extends javax.swing.JInternalFrame {
         }
         
         //si es nuevo, validamos que el usuario no exista
-        int pos = misDatos.posicionProducto(txtIdProducto.getText());
+        int pos = productoMgr.posicionProducto(txtIdProducto.getText());
         if (nuevo) {
             if (pos != -1) {
                 JOptionPane.showMessageDialog(rootPane, "Producto ya existe");
@@ -465,9 +465,9 @@ public class FrmProductos extends javax.swing.JInternalFrame {
         String  msg;
        
         if (nuevo) {
-            msg = misDatos.agregarProducto(miProducto);
+            msg = productoMgr.agregarProducto(miProducto);
         } else {
-            msg = misDatos.modificarProducto(miProducto, pos);
+            msg = productoMgr.modificarProducto(miProducto, pos);
         }
         
         JOptionPane.showMessageDialog(rootPane, msg);
@@ -569,12 +569,12 @@ public class FrmProductos extends javax.swing.JInternalFrame {
         mostrarResgistro();
     }//GEN-LAST:event_btnPrimeroActionPerformed
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        proAct = misDatos.numeroProductos()- 1;
+        proAct = productoMgr.numeroProductos()- 1;
         mostrarResgistro();
     }//GEN-LAST:event_btnUltimoActionPerformed
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
        proAct++;
-        if (proAct == misDatos.numeroProductos()) {
+        if (proAct == productoMgr.numeroProductos()) {
             proAct = 0;
         }
         mostrarResgistro();
@@ -582,7 +582,7 @@ public class FrmProductos extends javax.swing.JInternalFrame {
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
          proAct--;
         if (proAct == -1) {
-            proAct = misDatos.numeroProductos()- 1;;
+            proAct = productoMgr.numeroProductos()- 1;;
         }
         mostrarResgistro();
     }//GEN-LAST:event_btnAnteriorActionPerformed
@@ -592,7 +592,7 @@ public class FrmProductos extends javax.swing.JInternalFrame {
             return;
         }
         String msg;
-        msg = misDatos.borrarProducto(proAct);
+        msg = productoMgr.borrarProducto(proAct);
         JOptionPane.showMessageDialog(rootPane, msg);
         proAct = 0;
         mostrarResgistro();
@@ -605,7 +605,7 @@ public class FrmProductos extends javax.swing.JInternalFrame {
         if (producto.equals("")) {
             return;
         }
-        int pos = misDatos.posicionProducto(producto);
+        int pos = productoMgr.posicionProducto(producto);
         if (pos == -1) {
             JOptionPane.showMessageDialog(rootPane, "Producto no existe");
             return;

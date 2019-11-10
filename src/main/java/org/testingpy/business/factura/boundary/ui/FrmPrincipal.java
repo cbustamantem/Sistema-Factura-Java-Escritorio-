@@ -1,18 +1,18 @@
-package org.testingpy.business.factura.boundary;
+package org.testingpy.business.factura.boundary.ui;
 
-import org.testingpy.business.factura.boundary.FrmFactura;
-import org.testingpy.business.factura.boundary.FrmAcercaDe;
-import org.testingpy.business.usuario.boundary.FrmCambioClave;
-import org.testingpy.business.usuario.boundary.FrmUsuarios;
-import org.testingpy.business.usuario.boundary.FrmLogin;
-import org.testingpy.business.producto.boundary.FrmProductos;
-import org.testingpy.business.cliente.boundary.FrmClientes;
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.cliente.boundary.db.ClienteManager;
+import org.testingpy.business.usuario.boundary.ui.FrmCambioClave;
+import org.testingpy.business.usuario.boundary.ui.FrmUsuarios;
+import org.testingpy.business.usuario.boundary.ui.FrmLogin;
+import org.testingpy.business.producto.boundary.ui.FrmProductos;
+import org.testingpy.business.cliente.boundary.ui.FrmClientes;
+import org.testingpy.business.factura.boundary.db.FacturaManager;
 import org.testingpy.business.factura.entities.DesktopConFondo;
+import org.testingpy.business.producto.boundary.db.ProductoManager;
+import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 
 public class FrmPrincipal extends javax.swing.JFrame {
 
-    private ControlladorFacturacion misDatos;
     private int perfil;
     private String clave;
     private String usuario;
@@ -20,9 +20,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
-    }
+  
     public void setPerfil(int perfil) {
         this.perfil = perfil;
     }
@@ -178,23 +176,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mnuArchivoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoProductosActionPerformed
         FrmProductos misProductos = new FrmProductos();
-        misProductos.setDatos(misDatos);
+        misProductos.setDatos(ProductoManager.getInstance());
         dpnEscritorio.add(misProductos);
         misProductos.show();
     }//GEN-LAST:event_mnuArchivoProductosActionPerformed
     private void mnuArchivoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoUsuariosActionPerformed
         FrmUsuarios misUsuarios = new FrmUsuarios();
-        misUsuarios.setDatos(misDatos);
+        misUsuarios.setDatos(UsuarioManager.getInstance());
         dpnEscritorio.add(misUsuarios);
         misUsuarios.show();
     }//GEN-LAST:event_mnuArchivoUsuariosActionPerformed
     private void mnuArchivoSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoSalirActionPerformed
-        misDatos.grabarTodo();
+//        misDatos.grabarTodo();
         System.exit(0);
     }//GEN-LAST:event_mnuArchivoSalirActionPerformed
     private void mnuArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoClientesActionPerformed
         FrmClientes misClientes = new FrmClientes();
-        misClientes.setDatos(misDatos);
+        misClientes.setDatos( ClienteManager.getInstance());
         dpnEscritorio.add(misClientes);
         misClientes.show();
     }//GEN-LAST:event_mnuArchivoClientesActionPerformed
@@ -213,7 +211,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void mnuArchivoCambioUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoCambioUsuarioActionPerformed
        this.setVisible(false);
        FrmLogin miLogin = new FrmLogin();
-       miLogin.setDatos(misDatos);
+       miLogin.setDatos(UsuarioManager.getInstance());
        miLogin.setLocationRelativeTo(null);
        miLogin.setVisible(true);
     }//GEN-LAST:event_mnuArchivoCambioUsuarioActionPerformed
@@ -221,7 +219,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         FrmCambioClave miCambio = new FrmCambioClave(this, rootPaneCheckingEnabled);
         miCambio.setClave(clave);
         miCambio.setUsuario(usuario);
-        miCambio.setDatos(misDatos);
+        miCambio.setDatos(UsuarioManager.getInstance());
         miCambio.setLocationRelativeTo(this);
         miCambio.setVisible(true);
     }//GEN-LAST:event_mnuArchivoCambioClaveActionPerformed
@@ -232,7 +230,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAyudaAcercaDeActionPerformed
     private void mnuMovimientosNuevaFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovimientosNuevaFacturaActionPerformed
         FrmFactura miFactura = new FrmFactura();
-        miFactura.setDatos(misDatos);
+        miFactura.setDatos(ClienteManager.getInstance(),  ProductoManager.getInstance(),  FacturaManager.getInstance());
         dpnEscritorio.add(miFactura);
         miFactura.show();
     }//GEN-LAST:event_mnuMovimientosNuevaFacturaActionPerformed

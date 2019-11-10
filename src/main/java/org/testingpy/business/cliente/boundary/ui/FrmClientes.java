@@ -1,14 +1,15 @@
-package org.testingpy.business.cliente.boundary;
+package org.testingpy.business.cliente.boundary.ui;
 
 import org.testingpy.business.cliente.entities.Cliente;
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.factura.boundary.db.ConfiguracionManager;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.testingpy.business.cliente.boundary.db.ClienteManager;
 
 public class FrmClientes extends javax.swing.JInternalFrame {
 
-    private ControlladorFacturacion misDatos;
+    private ClienteManager misDatos;
     private int cliAct = 0;
     private boolean nuevo = false;
     private DefaultTableModel miTabla;
@@ -16,7 +17,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     public FrmClientes() {
         initComponents();
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
+    public void setDatos(ClienteManager misDatos) {
         this.misDatos = misDatos;
     }
     private void mostrarResgistro() {

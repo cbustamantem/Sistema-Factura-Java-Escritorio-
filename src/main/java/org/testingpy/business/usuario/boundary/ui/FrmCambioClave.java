@@ -1,7 +1,9 @@
-package org.testingpy.business.usuario.boundary;
+package org.testingpy.business.usuario.boundary.ui;
 
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.factura.boundary.db.ConfiguracionManager;
 import javax.swing.JOptionPane;
+import org.testingpy.business.cliente.boundary.db.ClienteManager;
+import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 
 public class FrmCambioClave extends javax.swing.JDialog {
 
@@ -12,10 +14,10 @@ public class FrmCambioClave extends javax.swing.JDialog {
 
     private String clave;
     private String usuario;
-    private ControlladorFacturacion misDatos;
+    private UsuarioManager usuarioMgr;
     
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
+    public void setDatos(UsuarioManager usuarioMgr) {
+        this.usuarioMgr = usuarioMgr;
     }
     public void setClave(String clave) {
         this.clave = clave;
@@ -156,7 +158,7 @@ public class FrmCambioClave extends javax.swing.JDialog {
         }
         
         // Cambiamos la clave
-        misDatos.cambioClave(usuario, nueva);
+        usuarioMgr.cambioClave(usuario, nueva);
         JOptionPane.showMessageDialog(rootPane, "Clave cambiada");
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed

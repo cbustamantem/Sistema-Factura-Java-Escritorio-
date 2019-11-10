@@ -1,13 +1,13 @@
-package org.testingpy.business.usuario.boundary;
+package org.testingpy.business.usuario.boundary.ui;
 
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
 import org.testingpy.business.usuario.entities.Usuario;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 
 public class FrmUsuarios extends javax.swing.JInternalFrame {
 
-    private ControlladorFacturacion misDatos;
+    private UsuarioManager usuarioMgr;
     private int usuAct = 0;
     private boolean nuevo = false;
     private DefaultTableModel miTabla;
@@ -15,27 +15,27 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
     public FrmUsuarios() {
         initComponents();
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
+    public void setDatos(UsuarioManager misDatos) {
+        this.usuarioMgr = misDatos;
     }
     private void mostrarResgistro() {
-        txtIdUsuario.setText(misDatos.getUsuarios()[usuAct].getIdUsuario());
-        txtNombre.setText(misDatos.getUsuarios()[usuAct].getNombres());
-        txtApellidos.setText(misDatos.getUsuarios()[usuAct].getApellidos());
-        txtClave.setText(misDatos.getUsuarios()[usuAct].getClave());
-        txtConfirmacion.setText(misDatos.getUsuarios()[usuAct].getClave());
-        cboPerfil.setSelectedIndex((misDatos.getUsuarios()[usuAct].getPerfil()));
+        txtIdUsuario.setText(usuarioMgr.getUsuarios()[usuAct].getIdUsuario());
+        txtNombre.setText(usuarioMgr.getUsuarios()[usuAct].getNombres());
+        txtApellidos.setText(usuarioMgr.getUsuarios()[usuAct].getApellidos());
+        txtClave.setText(usuarioMgr.getUsuarios()[usuAct].getClave());
+        txtConfirmacion.setText(usuarioMgr.getUsuarios()[usuAct].getClave());
+        cboPerfil.setSelectedIndex((usuarioMgr.getUsuarios()[usuAct].getPerfil()));
     }
     private void llenarTabla() {
         String titulos[] = { "ID Usuario", "Nombres", "Apellidos", "Perfil" };
         String registro[] = new String[4];
         miTabla = new DefaultTableModel(null, titulos);
         
-        for (int i = 0; i < misDatos.numeroUsuarios(); i++) {
-            registro[0] = misDatos.getUsuarios()[i].getIdUsuario();
-            registro[1] = misDatos.getUsuarios()[i].getNombres();
-            registro[2] = misDatos.getUsuarios()[i].getApellidos();
-            registro[3] = perfil(misDatos.getUsuarios()[i].getPerfil());
+        for (int i = 0; i < usuarioMgr.numeroUsuarios(); i++) {
+            registro[0] = usuarioMgr.getUsuarios()[i].getIdUsuario();
+            registro[1] = usuarioMgr.getUsuarios()[i].getNombres();
+            registro[2] = usuarioMgr.getUsuarios()[i].getApellidos();
+            registro[3] = perfil(usuarioMgr.getUsuarios()[i].getPerfil());
             miTabla.addRow(registro);
         }
         tblUsuarios.setModel(miTabla);
@@ -456,7 +456,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
         }
         
         //si es nuevo, validamos que el usuario no exista
-        int pos = misDatos.posicionUsuario(txtIdUsuario.getText());
+        int pos = usuarioMgr.posicionUsuario(txtIdUsuario.getText());
         if (nuevo) {
             if (pos != -1) {
                 JOptionPane.showMessageDialog(rootPane, "Usuario ya existe");
@@ -476,9 +476,9 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
        String  msg;
        
        if (nuevo) {
-            msg = misDatos.agregarUsuario(miUsuario);
+            msg = usuarioMgr.agregarUsuario(miUsuario);
         } else {
-           msg = misDatos.modificarUsuario(miUsuario, pos);
+           msg = usuarioMgr.modificarUsuario(miUsuario, pos);
        }
        
        JOptionPane.showMessageDialog(rootPane, msg);
@@ -586,12 +586,12 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
         mostrarResgistro();
     }//GEN-LAST:event_btnPrimeroActionPerformed
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        usuAct = misDatos.numeroUsuarios() - 1;
+        usuAct = usuarioMgr.numeroUsuarios() - 1;
         mostrarResgistro();
     }//GEN-LAST:event_btnUltimoActionPerformed
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
        usuAct++;
-        if (usuAct == misDatos.numeroUsuarios()) {
+        if (usuAct == usuarioMgr.numeroUsuarios()) {
             usuAct = 0;
         }
         mostrarResgistro();
@@ -599,7 +599,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
          usuAct--;
         if (usuAct == -1) {
-            usuAct = misDatos.numeroUsuarios() - 1;;
+            usuAct = usuarioMgr.numeroUsuarios() - 1;;
         }
         mostrarResgistro();
     }//GEN-LAST:event_btnAnteriorActionPerformed
@@ -609,7 +609,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
             return;
         }
         String msg;
-        msg = misDatos.borrarUsuario(usuAct);
+        msg = usuarioMgr.borrarUsuario(usuAct);
         JOptionPane.showMessageDialog(rootPane, msg);
         usuAct = 0;
         mostrarResgistro();
@@ -622,7 +622,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
         if (usuario.equals("")) {
             return;
         }
-        int pos = misDatos.posicionUsuario(usuario);
+        int pos = usuarioMgr.posicionUsuario(usuario);
         if (pos == -1) {
             JOptionPane.showMessageDialog(rootPane, "Usuario no existe");
             return;

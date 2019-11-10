@@ -43,4 +43,14 @@
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-Sonarqube</actionName>
+            <displayName>Sonarqube</displayName>
+            <goals>
+                <goal>sonar:sonar</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>Sonarqube</activatedProfile>
+            </activatedProfiles>
+        </action>
     </actions>

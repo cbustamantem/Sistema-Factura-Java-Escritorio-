@@ -1,8 +1,7 @@
-package org.testingpy.business.factura.boundary;
+package org.testingpy.business.factura.boundary.ui;
 
-import org.testingpy.business.producto.boundary.FrmBusquedaProducto;
-import org.testingpy.business.cliente.boundary.FrmBusquedaCliente;
-import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.producto.boundary.ui.FrmBusquedaProducto;
+import org.testingpy.business.cliente.boundary.ui.FrmBusquedaCliente;
 import org.testingpy.business.opcion.entities.Opcion;
 import org.testingpy.clases.Utilidades;
 import java.io.FileWriter;
@@ -12,43 +11,50 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.testingpy.business.cliente.boundary.db.ClienteManager;
+import org.testingpy.business.factura.boundary.db.FacturaManager;
+import org.testingpy.business.producto.boundary.db.ProductoManager;
 
 public class FrmFactura extends javax.swing.JInternalFrame {
 
-    private ControlladorFacturacion misDatos;
+    private ClienteManager clienteMgr;
+    private ProductoManager productoMgr;
+    private FacturaManager facturaMgr;
     private DefaultTableModel miTabla;
 
     public void limpiarTabla() {
         try {
-            DefaultTableModel modelo = (DefaultTableModel)tblFactura.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tblFactura.getModel();
             int filas = tblFactura.getRowCount();
-            
+
             for (int i = 0; i < filas; i++) {
                 modelo.removeRow(0);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void totales() {
         int num = tblFactura.getRowCount();
         int sumCant = 0;
         int sumVal = 0;
-        
+
         for (int i = 0; i < num; i++) {
-            sumCant += Utilidades.objectToInt( tblFactura.getValueAt(i, 3) );
-            sumVal += Utilidades.objectToInt(tblFactura.getValueAt(i, 4) );
+            sumCant += Utilidades.objectToInt(tblFactura.getValueAt(i, 3));
+            sumVal += Utilidades.objectToInt(tblFactura.getValueAt(i, 4));
         }
-        
+
         txtTotalCantidad.setText("" + sumCant);
         txtTotalValor.setText("" + sumVal);
     }
+
     private void llenarTabla() {
-        String titulos[] = { "ID Producto", "Descripción", "Precio", "Cantidad", "Valor" };
+        String titulos[] = {"ID Producto", "Descripción", "Precio", "Cantidad", "Valor"};
         miTabla = new DefaultTableModel(null, titulos);
         tblFactura.setModel(miTabla);
-        
+
         // Alinear campos numericos a la derecha
         DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
         tcr.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -56,9 +62,13 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         tblFactura.getColumnModel().getColumn(3).setCellRenderer(tcr);
         tblFactura.getColumnModel().getColumn(4).setCellRenderer(tcr);
     }
-    public void setDatos(ControlladorFacturacion misDatos) {
-        this.misDatos = misDatos;
+
+    public void setDatos(ClienteManager misDatos, ProductoManager productoMgr, FacturaManager facturaMgr) {
+        this.clienteMgr = misDatos;
+        this.productoMgr = productoMgr;
+        this.facturaMgr = facturaMgr;
     }
+
     public FrmFactura() {
         initComponents();
     }
@@ -296,27 +306,27 @@ public class FrmFactura extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         // Cargamos los clientes
         Opcion opc;
-        
-        for (int i = 0; i < misDatos.numeroClientes(); i++) {
-            opc = new Opcion(misDatos.getClientes()[i].getIdCliente(), 
-                    misDatos.getClientes()[i].getNombres() + " "+ misDatos.getClientes()[i].getApellidos());
+
+        for (int i = 0; i < clienteMgr.numeroClientes(); i++) {
+            opc = new Opcion(clienteMgr.getClientes()[i].getIdCliente(),
+                    clienteMgr.getClientes()[i].getNombres() + " " + clienteMgr.getClientes()[i].getApellidos());
             cboCliente.addItem(opc);
         }
-        
+
         // Cargamos los productos
-        for (int i = 0; i < misDatos.numeroProductos(); i++) {
-            opc = new Opcion( misDatos.getProductos()[i].getIdProducto(),
-                    misDatos.getProductos()[i].getDescripcion());
+        for (int i = 0; i < productoMgr.numeroProductos(); i++) {
+            opc = new Opcion(productoMgr.getProductos()[i].getIdProducto(),
+                    productoMgr.getProductos()[i].getDescripcion());
             cboProducto.addItem(opc);
         }
-        
+
         // Colocamos fecha del sistema
         txtFecha.setText(Utilidades.formatDate(new Date()));
-        
+
         // Mostramos totales en 0
         txtTotalCantidad.setText("0");
         txtTotalValor.setText("0");
-        
+
         // Cargamos la tabla
         llenarTabla();
     }//GEN-LAST:event_formInternalFrameOpened
@@ -341,34 +351,34 @@ public class FrmFactura extends javax.swing.JInternalFrame {
             txtCantidad.requestFocusInWindow();
             return;
         }
-        
+
         int cantidad = Integer.parseInt(txtCantidad.getText());
         if (cantidad <= 0) {
             JOptionPane.showMessageDialog(rootPane, "Debe digitar un valor mayor a 0");
             txtCantidad.requestFocusInWindow();
             return;
         }
-        
+
         // Buscamos los datos del producto selecionado
-        int pos = misDatos.posicionProducto(((Opcion)cboProducto.getSelectedItem()).getValor());
-        
+        int pos = productoMgr.posicionProducto(((Opcion) cboProducto.getSelectedItem()).getValor());
+
         // Adicionamos el producto a la tabla
         String registro[] = new String[5];
-        registro[0] = misDatos.getProductos()[pos].getIdProducto();
-        registro[1] = misDatos.getProductos()[pos].getDescripcion();
-        registro[2] = "" + misDatos.getProductos()[pos].getPrecio();
+        registro[0] = productoMgr.getProductos()[pos].getIdProducto();
+        registro[1] = productoMgr.getProductos()[pos].getDescripcion();
+        registro[2] = "" + productoMgr.getProductos()[pos].getPrecio();
         registro[3] = "" + cantidad;
-        registro[4] = "" + (cantidad * misDatos.getProductos()[pos].getPrecio());
+        registro[4] = "" + (cantidad * productoMgr.getProductos()[pos].getPrecio());
         miTabla.addRow(registro);
-        
+
         // Inicializamos campos
         cboProducto.setSelectedIndex(0);
         txtCantidad.setText("");
         cboProducto.requestFocusInWindow();
-        
+
         // Actualizamos totales
         totales();
- 
+
     }//GEN-LAST:event_btnAgregarActionPerformed
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
 //        if (cboCliente.getSelectedIndex() == 0) {
@@ -376,39 +386,39 @@ public class FrmFactura extends javax.swing.JInternalFrame {
 //            cboCliente.requestFocusInWindow();
 //            return;
 //        }
-        
+
         int totCan = new Integer(txtTotalCantidad.getText());
         if (totCan == 0) {
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar detalle de la factura");
             cboProducto.requestFocusInWindow();
             return;
         }
-        
+
         int rpta = JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de grabar la factura?");
         if (rpta != 0) {
             return;
         }
-        
+
         // adicionamos un consecutivo a la factura
-        int numFac = misDatos.getNumFac() + 1;
-        
+        int numFac = facturaMgr.getNumFac() + 1;
+
         //grabamos la factura
         FileWriter fw = null;
         PrintWriter pw = null;
         try {
             fw = new FileWriter("Data/facturas.txt", true);
             pw = new PrintWriter(fw);
-            
+
             //encabezado de factura
-            String aux = "1|" 
-                    + numFac + "|" 
-                    + ((Opcion)cboCliente.getSelectedItem()).getValor() + "|"
-                    + ((Opcion)cboCliente.getSelectedItem()).getDescripcion() + "|"
+            String aux = "1|"
+                    + numFac + "|"
+                    + ((Opcion) cboCliente.getSelectedItem()).getValor() + "|"
+                    + ((Opcion) cboCliente.getSelectedItem()).getDescripcion() + "|"
                     + txtFecha.getText();
             pw.println(aux);
-            
+
             //detalle de factura
-            int num = tblFactura.getRowCount();          
+            int num = tblFactura.getRowCount();
             for (int i = 0; i < num; i++) {
                 aux = "2|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 0)) + "|"
@@ -418,23 +428,24 @@ public class FrmFactura extends javax.swing.JInternalFrame {
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 4));
                 pw.println(aux);
             }
-            
+
         } catch (Exception ex1) {
             ex1.printStackTrace();
-            
+
         } finally {
             try {
-                if (fw != null)
+                if (fw != null) {
                     fw.close();
+                }
 
             } catch (Exception ex2) {
                 ex2.printStackTrace();
             }
         }
-        
+
         JOptionPane.showMessageDialog(rootPane, "Factura " + numFac + " generada con éxito");
-        misDatos.setNumFac(numFac);
-        
+        facturaMgr.setNumFac(numFac);
+
         //inicializamos campos
         cboCliente.setSelectedIndex(0);
         cboProducto.setSelectedIndex(0);
@@ -442,7 +453,7 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         limpiarTabla();
         totales();
         cboCliente.requestFocusInWindow();
-        
+
     }//GEN-LAST:event_btnGrabarActionPerformed
     private void btnBorrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodoActionPerformed
         int rpta = JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de borrar el detalle de la factura?");
@@ -458,54 +469,56 @@ public class FrmFactura extends javax.swing.JInternalFrame {
             cboProducto.requestFocusInWindow();
             return;
         }
-        
+
         try {
-            DefaultTableModel modelo = (DefaultTableModel)tblFactura.getModel();
+            DefaultTableModel modelo = (DefaultTableModel) tblFactura.getModel();
             int filas = tblFactura.getRowCount();
-            
+
             for (int i = 0; i < filas; i++) {
-                String idTabla =  Utilidades.objectToString(tblFactura.getValueAt(i, 0));
-                String idCombo = ((Opcion)cboProducto.getSelectedItem()).getValor();
+                String idTabla = Utilidades.objectToString(tblFactura.getValueAt(i, 0));
+                String idCombo = ((Opcion) cboProducto.getSelectedItem()).getValor();
                 if (idTabla.equals(idCombo)) {
                     modelo.removeRow(i);
                     totales();
                     return;
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         FrmBusquedaCliente miBusquedaCliente = new FrmBusquedaCliente(null, closable);
-        miBusquedaCliente.setDatos(misDatos);
+        miBusquedaCliente.setDatos(clienteMgr);
         miBusquedaCliente.setLocationRelativeTo(null);
         miBusquedaCliente.setVisible(true);
         String rpta = miBusquedaCliente.getRespuesta();
-        
-        if (rpta.equals(""))
+
+        if (rpta.equals("")) {
             return;
-        
+        }
+
         for (int i = 0; i < cboCliente.getItemCount(); i++) {
-            if (((Opcion)cboCliente.getItemAt(i)).getValor().equals(rpta)) {
+            if (((Opcion) cboCliente.getItemAt(i)).getValor().equals(rpta)) {
                 cboCliente.setSelectedIndex(i);
                 return;
             }
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        FrmBusquedaProducto miBusquedaProducto= new FrmBusquedaProducto(null, closable);
-        miBusquedaProducto.setDatos(misDatos);
+        FrmBusquedaProducto miBusquedaProducto = new FrmBusquedaProducto(null, closable);
+        miBusquedaProducto.setDatos(productoMgr,clienteMgr);
         miBusquedaProducto.setLocationRelativeTo(null);
         miBusquedaProducto.setVisible(true);
         String rpta = miBusquedaProducto.getRespuesta();
-        
-        if (rpta.equals(""))
+
+        if (rpta.equals("")) {
             return;
-        
+        }
+
         for (int i = 0; i < cboProducto.getItemCount(); i++) {
-            if (((Opcion)cboProducto.getItemAt(i)).getValor().equals(rpta)) {
+            if (((Opcion) cboProducto.getItemAt(i)).getValor().equals(rpta)) {
                 cboProducto.setSelectedIndex(i);
                 return;
             }
