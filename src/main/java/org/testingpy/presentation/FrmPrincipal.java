@@ -1,19 +1,19 @@
-package Formularios;
+package org.testingpy.presentation;
 
-import Clases.Datos;
-import Clases.DesktopConFondo;
+import org.testingpy.clases.ControlladorFacturacion;
+import org.testingpy.clases.DesktopConFondo;
 
-public class frmPrincipal extends javax.swing.JFrame {
+public class FrmPrincipal extends javax.swing.JFrame {
 
-    private Datos misDatos;
+    private ControlladorFacturacion misDatos;
     private int perfil;
     private String clave;
     private String usuario;
     
-    public frmPrincipal() {
+    public FrmPrincipal() {
         initComponents();
     }
-    public void setDatos(Datos misDatos) {
+    public void setDatos(ControlladorFacturacion misDatos) {
         this.misDatos = misDatos;
     }
     public void setPerfil(int perfil) {
@@ -170,13 +170,13 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuArchivoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoProductosActionPerformed
-        frmProductos misProductos = new frmProductos();
+        FrmProductos misProductos = new FrmProductos();
         misProductos.setDatos(misDatos);
         dpnEscritorio.add(misProductos);
         misProductos.show();
     }//GEN-LAST:event_mnuArchivoProductosActionPerformed
     private void mnuArchivoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoUsuariosActionPerformed
-        frmUsuarios misUsuarios = new frmUsuarios();
+        FrmUsuarios misUsuarios = new FrmUsuarios();
         misUsuarios.setDatos(misDatos);
         dpnEscritorio.add(misUsuarios);
         misUsuarios.show();
@@ -186,7 +186,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_mnuArchivoSalirActionPerformed
     private void mnuArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoClientesActionPerformed
-        frmClientes misClientes = new frmClientes();
+        FrmClientes misClientes = new FrmClientes();
         misClientes.setDatos(misDatos);
         dpnEscritorio.add(misClientes);
         misClientes.show();
@@ -205,13 +205,13 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
     private void mnuArchivoCambioUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoCambioUsuarioActionPerformed
        this.setVisible(false);
-       frmLogin miLogin = new frmLogin();
+       FrmLogin miLogin = new FrmLogin();
        miLogin.setDatos(misDatos);
        miLogin.setLocationRelativeTo(null);
        miLogin.setVisible(true);
     }//GEN-LAST:event_mnuArchivoCambioUsuarioActionPerformed
     private void mnuArchivoCambioClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoCambioClaveActionPerformed
-        frmCambioClave miCambio = new frmCambioClave(this, rootPaneCheckingEnabled);
+        FrmCambioClave miCambio = new FrmCambioClave(this, rootPaneCheckingEnabled);
         miCambio.setClave(clave);
         miCambio.setUsuario(usuario);
         miCambio.setDatos(misDatos);
@@ -219,12 +219,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         miCambio.setVisible(true);
     }//GEN-LAST:event_mnuArchivoCambioClaveActionPerformed
     private void mnuAyudaAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAyudaAcercaDeActionPerformed
-       frmAcercaDe miAcerca = new frmAcercaDe(this, rootPaneCheckingEnabled);
+       FrmAcercaDe miAcerca = new FrmAcercaDe(this, rootPaneCheckingEnabled);
        miAcerca.setLocationRelativeTo(this);
        miAcerca.setVisible(true);
     }//GEN-LAST:event_mnuAyudaAcercaDeActionPerformed
     private void mnuMovimientosNuevaFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovimientosNuevaFacturaActionPerformed
-        frmFactura miFactura = new frmFactura();
+        FrmFactura miFactura = new FrmFactura();
         miFactura.setDatos(misDatos);
         dpnEscritorio.add(miFactura);
         miFactura.show();
@@ -244,20 +244,21 @@ public class frmPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmPrincipal().setVisible(true);
+                new FrmPrincipal().setVisible(true);
             }
         });
     }

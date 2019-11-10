@@ -1,8 +1,8 @@
-package Formularios;
+package org.testingpy.presentation;
 
-import Clases.Datos;
-import Clases.Opcion;
-import Clases.Utilidades;
+import org.testingpy.clases.ControlladorFacturacion;
+import org.testingpy.clases.Opcion;
+import org.testingpy.clases.Utilidades;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -11,9 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class frmFactura extends javax.swing.JInternalFrame {
+public class FrmFactura extends javax.swing.JInternalFrame {
 
-    private Datos misDatos;
+    private ControlladorFacturacion misDatos;
     private DefaultTableModel miTabla;
 
     public void limpiarTabla() {
@@ -54,10 +54,10 @@ public class frmFactura extends javax.swing.JInternalFrame {
         tblFactura.getColumnModel().getColumn(3).setCellRenderer(tcr);
         tblFactura.getColumnModel().getColumn(4).setCellRenderer(tcr);
     }
-    public void setDatos(Datos misDatos) {
+    public void setDatos(ControlladorFacturacion misDatos) {
         this.misDatos = misDatos;
     }
-    public frmFactura() {
+    public FrmFactura() {
         initComponents();
     }
 
@@ -476,7 +476,7 @@ public class frmFactura extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        frmBusquedaCliente miBusquedaCliente = new frmBusquedaCliente(null, closable);
+        FrmBusquedaCliente miBusquedaCliente = new FrmBusquedaCliente(null, closable);
         miBusquedaCliente.setDatos(misDatos);
         miBusquedaCliente.setLocationRelativeTo(null);
         miBusquedaCliente.setVisible(true);
@@ -493,7 +493,7 @@ public class frmFactura extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        frmBusquedaProducto miBusquedaProducto= new frmBusquedaProducto(null, closable);
+        FrmBusquedaProducto miBusquedaProducto= new FrmBusquedaProducto(null, closable);
         miBusquedaProducto.setDatos(misDatos);
         miBusquedaProducto.setLocationRelativeTo(null);
         miBusquedaProducto.setVisible(true);

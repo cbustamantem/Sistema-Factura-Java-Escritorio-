@@ -1,4 +1,4 @@
-package Clases;
+package org.testingpy.clases;
 
 import java.awt.Graphics;
 import java.awt.Image;

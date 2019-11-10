@@ -1,22 +1,22 @@
-package Formularios;
+package org.testingpy.presentation;
 
-import Clases.Datos;
-import Clases.Producto;
-import Clases.Utilidades;
+import org.testingpy.clases.ControlladorFacturacion;
+import org.testingpy.clases.Producto;
+import org.testingpy.clases.Utilidades;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class frmProductos extends javax.swing.JInternalFrame {
+public class FrmProductos extends javax.swing.JInternalFrame {
 
-    private Datos misDatos;
+    private ControlladorFacturacion misDatos;
     private int proAct = 0;
     private boolean nuevo = false;
     private DefaultTableModel miTabla;
     
-    public frmProductos() {
+    public FrmProductos() {
         initComponents();
     }
-    public void setDatos(Datos misDatos) {
+    public void setDatos(ControlladorFacturacion misDatos) {
         this.misDatos = misDatos;
     }
     private void mostrarResgistro() {

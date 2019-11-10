@@ -1,4 +1,4 @@
-package Clases;
+package org.testingpy.clases;
 
 public class Producto {
     private String idProducto;

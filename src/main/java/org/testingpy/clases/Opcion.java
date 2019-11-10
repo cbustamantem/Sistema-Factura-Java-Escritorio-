@@ -1,4 +1,4 @@
-package Clases;
+package org.testingpy.clases;
 
 public class Opcion {
     private String valor;

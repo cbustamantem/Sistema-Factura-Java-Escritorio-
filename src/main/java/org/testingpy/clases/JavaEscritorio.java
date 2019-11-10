@@ -1,15 +1,15 @@
-package Clases;
+package org.testingpy.clases;
 
-import Formularios.frmLogin;
+import org.testingpy.presentation.FrmLogin;
 
 
 public class JavaEscritorio {
 
     public static void main(String[] args) {
-        Datos misDatos = new Datos();
+        ControlladorFacturacion misDatos = new ControlladorFacturacion();
         
         //llamamos al formulario login
-        frmLogin miLogin = new frmLogin();
+        FrmLogin miLogin = new FrmLogin();
         miLogin.setDatos(misDatos);
         miLogin.setLocationRelativeTo(null);
         miLogin.setVisible(true);

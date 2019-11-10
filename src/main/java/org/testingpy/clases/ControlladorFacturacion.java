@@ -1,4 +1,4 @@
-package Clases;
+package org.testingpy.clases;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Date;
 
-public class Datos {
+public class ControlladorFacturacion {
     
     private int maxUsuario = 50;
     private int maxProducto = 100;
@@ -24,7 +24,7 @@ public class Datos {
     private int numFactura = 0;
     
     
-    public Datos() {
+    public ControlladorFacturacion() {
         
         //cargamos usuarios
         cargarUsuarios();
