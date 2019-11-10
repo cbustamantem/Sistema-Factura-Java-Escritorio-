@@ -1,4 +1,4 @@
-package org.testingpy.clases;
+package org.testingpy.business.opcion.entities;
 
 public class Opcion {
     private String valor;

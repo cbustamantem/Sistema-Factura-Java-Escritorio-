@@ -1,6 +1,6 @@
-package org.testingpy.presentation;
+package org.testingpy.business.usuario.boundary;
 
-import org.testingpy.clases.ControlladorFacturacion;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
 import javax.swing.JOptionPane;
 
 public class FrmCambioClave extends javax.swing.JDialog {

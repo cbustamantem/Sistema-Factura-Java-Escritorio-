@@ -1,4 +1,4 @@
-package org.testingpy.clases;
+package org.testingpy.business.factura.entities;
 
 import java.awt.Graphics;
 import java.awt.Image;

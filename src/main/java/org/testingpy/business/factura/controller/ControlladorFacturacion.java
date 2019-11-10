@@ -1,11 +1,15 @@
-package org.testingpy.clases;
+package org.testingpy.business.factura.controller;
 
+import org.testingpy.business.producto.entities.Producto;
+import org.testingpy.business.usuario.entities.Usuario;
+import org.testingpy.business.cliente.entities.Cliente;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Date;
+import org.testingpy.clases.Utilidades;
 
 public class ControlladorFacturacion {
     

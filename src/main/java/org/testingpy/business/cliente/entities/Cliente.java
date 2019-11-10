@@ -1,6 +1,7 @@
-package org.testingpy.clases;
+package org.testingpy.business.cliente.entities;
 
 import java.util.Date;
+import org.testingpy.clases.Utilidades;
 
 public class Cliente {
     

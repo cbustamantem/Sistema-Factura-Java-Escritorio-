@@ -1,7 +1,7 @@
-package org.testingpy.presentation;
+package org.testingpy.business.producto.boundary;
 
-import org.testingpy.clases.ControlladorFacturacion;
-import org.testingpy.clases.Producto;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.producto.entities.Producto;
 import org.testingpy.clases.Utilidades;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -1,6 +1,7 @@
 package org.testingpy.clases;
 
-import org.testingpy.presentation.FrmLogin;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.usuario.boundary.FrmLogin;
 
 
 public class JavaEscritorio {

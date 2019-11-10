@@ -1,7 +1,14 @@
-package org.testingpy.presentation;
+package org.testingpy.business.factura.boundary;
 
-import org.testingpy.clases.ControlladorFacturacion;
-import org.testingpy.clases.DesktopConFondo;
+import org.testingpy.business.factura.boundary.FrmFactura;
+import org.testingpy.business.factura.boundary.FrmAcercaDe;
+import org.testingpy.business.usuario.boundary.FrmCambioClave;
+import org.testingpy.business.usuario.boundary.FrmUsuarios;
+import org.testingpy.business.usuario.boundary.FrmLogin;
+import org.testingpy.business.producto.boundary.FrmProductos;
+import org.testingpy.business.cliente.boundary.FrmClientes;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.factura.entities.DesktopConFondo;
 
 public class FrmPrincipal extends javax.swing.JFrame {
 

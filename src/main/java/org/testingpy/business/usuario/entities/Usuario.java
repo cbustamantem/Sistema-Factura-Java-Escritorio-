@@ -1,4 +1,4 @@
-package org.testingpy.clases;
+package org.testingpy.business.usuario.entities;
 
 public class Usuario {
     private String idUsuario;

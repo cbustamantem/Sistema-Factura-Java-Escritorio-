@@ -1,7 +1,7 @@
-package org.testingpy.presentation;
+package org.testingpy.business.cliente.boundary;
 
-import org.testingpy.clases.Cliente;
-import org.testingpy.clases.ControlladorFacturacion;
+import org.testingpy.business.cliente.entities.Cliente;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

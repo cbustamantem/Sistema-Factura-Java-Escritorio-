@@ -1,7 +1,9 @@
-package org.testingpy.presentation;
+package org.testingpy.business.factura.boundary;
 
-import org.testingpy.clases.ControlladorFacturacion;
-import org.testingpy.clases.Opcion;
+import org.testingpy.business.producto.boundary.FrmBusquedaProducto;
+import org.testingpy.business.cliente.boundary.FrmBusquedaCliente;
+import org.testingpy.business.factura.controller.ControlladorFacturacion;
+import org.testingpy.business.opcion.entities.Opcion;
 import org.testingpy.clases.Utilidades;
 import java.io.FileWriter;
 import java.io.PrintWriter;
