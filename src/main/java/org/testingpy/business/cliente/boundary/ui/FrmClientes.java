@@ -1,7 +1,6 @@
 package org.testingpy.business.cliente.boundary.ui;
 
 import org.testingpy.business.cliente.entities.Cliente;
-import org.testingpy.business.factura.boundary.db.ConfiguracionManager;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

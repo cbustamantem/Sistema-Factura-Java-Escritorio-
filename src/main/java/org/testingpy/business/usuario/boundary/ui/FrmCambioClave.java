@@ -1,8 +1,6 @@
 package org.testingpy.business.usuario.boundary.ui;
 
-import org.testingpy.business.factura.boundary.db.ConfiguracionManager;
 import javax.swing.JOptionPane;
-import org.testingpy.business.cliente.boundary.db.ClienteManager;
 import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 
 public class FrmCambioClave extends javax.swing.JDialog {

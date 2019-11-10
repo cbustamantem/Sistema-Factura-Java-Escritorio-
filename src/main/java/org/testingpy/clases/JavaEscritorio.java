@@ -1,6 +1,5 @@
 package org.testingpy.clases;
 
-import org.testingpy.business.factura.boundary.db.ConfiguracionManager;
 import org.testingpy.business.usuario.boundary.db.UsuarioManager;
 import org.testingpy.business.usuario.boundary.ui.FrmLogin;
 

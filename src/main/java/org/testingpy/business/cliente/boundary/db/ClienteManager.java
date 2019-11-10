@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Date;
 import org.testingpy.business.cliente.entities.Cliente;
-import org.testingpy.business.factura.boundary.db.FacturaManager;
 import org.testingpy.clases.Utilidades;
 
 /**

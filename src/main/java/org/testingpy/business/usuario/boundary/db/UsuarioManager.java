@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import org.testingpy.business.producto.boundary.db.ProductoManager;
 import org.testingpy.business.usuario.entities.Usuario;
 
 /**

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import org.testingpy.business.cliente.boundary.db.ClienteManager;
 
 public class ConfiguracionManager {
     
