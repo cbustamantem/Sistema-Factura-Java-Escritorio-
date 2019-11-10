@@ -18,7 +18,7 @@ import org.testingpy.business.usuario.entities.Usuario;
  */
 public class UsuarioManager {
 
-    private int maxUsuario ;
+    private int maxUsuario;
     private int contUsuarios;
 
     private Usuario misUsuarios[];
@@ -32,8 +32,9 @@ public class UsuarioManager {
     public static UsuarioManager getInstance() {
         if (instance == null) {
             instance = new UsuarioManager();
+            instance.init();
+
         }
-        instance.init();
         return instance;
     }
 

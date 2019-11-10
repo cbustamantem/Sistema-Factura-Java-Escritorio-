@@ -18,9 +18,9 @@ import org.testingpy.business.producto.entities.Producto;
  */
 public class ProductoManager {
 
-    private int maxProducto ;
+    private int maxProducto;
 
-    private Producto misProductos[] ;
+    private Producto misProductos[];
 
     private int contProductos;
 
@@ -33,8 +33,9 @@ public class ProductoManager {
     public static ProductoManager getInstance() {
         if (instance == null) {
             instance = new ProductoManager();
+            instance.init();
+
         }
-        instance.init();
         return instance;
     }
 

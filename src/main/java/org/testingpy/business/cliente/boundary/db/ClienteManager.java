@@ -20,26 +20,31 @@ import org.testingpy.clases.Utilidades;
  */
 public class ClienteManager {
 
-    private int  maxCliente;
-    private int contClientes= 0;
+    private int maxCliente;
+    private int contClientes;
+    private Cliente misClientes[] = new Cliente[maxCliente];
     private static ClienteManager instance;
-    private ClienteManager(){
-     super();
-    }
-    public static ClienteManager getInstance(){
-        if (instance == null)
-            instance = new ClienteManager();
-            instance.init();
-        return instance;
-    }
-    private void init(){
-        maxCliente = 100;
-        contClientes= 0;
-        instance.cargarClientes();
-        
+
+    private ClienteManager() {
+        super();
     }
 
-    private Cliente misClientes[] = new Cliente[maxCliente];
+    public static ClienteManager getInstance() {
+        if (instance == null) {
+            instance = new ClienteManager();
+            instance.init();
+        }
+        
+        return instance;
+    }
+
+    private void init() {
+        maxCliente = 100;
+        contClientes = 0;
+        misClientes = new Cliente[maxCliente];
+        instance.cargarClientes();
+
+    }
 
     public void cargarClientes() {
         File archivo = null;
@@ -164,32 +169,38 @@ public class ClienteManager {
             }
         }
     }
+
     //clientes
     public Cliente[] getClientes() {
         return misClientes;
     }
+
     public int numeroClientes() {
         return contClientes;
     }
-     public int posicionCliente(String cliente) {
+
+    public int posicionCliente(String cliente) {
         int aux = -1;
         for (int i = 0; i < contClientes; i++) {
-            if (misClientes[i].getIdCliente().equals(cliente)) 
+            if (misClientes[i].getIdCliente().equals(cliente)) {
                 return 1;
+            }
         }
-        
+
         return -1;
     }
+
     public String agregarCliente(Cliente miCliente) {
         if (contClientes == maxCliente) {
             return "Se ha alcanzado el numbero maximo de clientes";
         }
-        
+
         misClientes[contClientes] = miCliente;
         contClientes++;
         return "Cliente agregado correctamente";
     }
-    public String modificarCliente(Cliente miCliente, int pos) { 
+
+    public String modificarCliente(Cliente miCliente, int pos) {
         misClientes[pos].setTipoIdentificacion(miCliente.getTipoIdentificacion());
         misClientes[pos].setNombres(miCliente.getNombres());
         misClientes[pos].setApellidos(miCliente.getApellidos());
@@ -200,6 +211,7 @@ public class ClienteManager {
         misClientes[pos].setFechaIngreso(miCliente.getFechaNacimiento());
         return "Cliente modificado correctamente";
     }
+
     public String borrarCliente(int pos) {
         for (int i = pos; i < contClientes - 1; i++) {
             misClientes[i] = misClientes[i + 1];
@@ -207,5 +219,5 @@ public class ClienteManager {
         contClientes--;
         return "Cliente borrado correctamente";
     }
-    
+
 }
