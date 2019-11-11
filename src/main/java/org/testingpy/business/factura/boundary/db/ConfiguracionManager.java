@@ -39,61 +39,33 @@ public class ConfiguracionManager {
     //configuracion
     public void cargarConfiguracion() {
         File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-
         try {
             archivo = new File("Data/Configuracion.ini");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            try (FileReader fr = new FileReader(archivo); BufferedReader br = new BufferedReader(fr);) {
 
-            String linea;
+                String linea;
 
-            while ((linea = br.readLine()) != null) {
-                if (linea.startsWith("FacturaActual")) {
-                    facturaMgr.setNumFac(new Integer(linea.substring(14)));
+                while ((linea = br.readLine()) != null) {
+                    if (linea.startsWith("FacturaActual")) {
+                        facturaMgr.setNumFac(new Integer(linea.substring(14)));
+                    }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
         }
     }
 
     public void grabarConfiguracion() {
-        FileWriter fw = null;
-        PrintWriter pw = null;
-
-        try {
-            fw = new FileWriter("Data/Configuracion.ini");
-            pw = new PrintWriter(fw);
-
+         
+        try(FileWriter fw = new FileWriter("Data/Configuracion.ini");
+                PrintWriter pw = new PrintWriter(fw);) {
             pw.println("[General]");
             pw.println("FacturaActual=" + facturaMgr.getNumFac());
-
         } catch (Exception ex1) {
             ex1.printStackTrace();
 
-        } finally {
-            try {
-                if (fw != null) {
-                    fw.close();
-                }
-
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-            }
-        }
+        } 
 
     }
 

@@ -46,12 +46,9 @@ public class UsuarioManager {
     }
 
     public void grabarUsuarios() {
-        FileWriter fw = null;
-        PrintWriter pw = null;
-
-        try {
-            fw = new FileWriter("Data/usuario.txt");
-            pw = new PrintWriter(fw);
+        
+        try (FileWriter fw = new FileWriter("Data/usuario.txt");
+            PrintWriter pw = new PrintWriter(fw);){
 
             for (int i = 0; i < contUsuarios; i++) {
                 pw.println(misUsuarios[i].toString());
@@ -60,85 +57,65 @@ public class UsuarioManager {
         } catch (Exception ex1) {
             ex1.printStackTrace();
 
-        } finally {
-            try {
-                if (fw != null) {
-                    fw.close();
-                }
-
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-            }
         }
 
     }
 
     public void cargarUsuarios() {
         File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
 
         try {
             archivo = new File("Data/usuario.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            try (FileReader fr = new FileReader(archivo); BufferedReader br = new BufferedReader(fr);) {
 
-            int pos;
-            String aux;
-            String linea;
+                int pos;
+                String aux;
+                String linea;
 
-            String idUsuario;
-            String nombres;
-            String apellidos;
-            String clave;
-            int perfil;
+                String idUsuario;
+                String nombres;
+                String apellidos;
+                String clave;
+                int perfil;
 
-            while ((linea = br.readLine()) != null) {
-                //extraemos id usuario
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                idUsuario = aux;
-                linea = linea.substring(pos + 1);
+                while ((linea = br.readLine()) != null) {
+                    //extraemos id usuario
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    idUsuario = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos nombres
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                nombres = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos nombres
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    nombres = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos apellidos
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                apellidos = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos apellidos
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    apellidos = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos clave y perfil
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                clave = aux;
-                linea = linea.substring(pos + 1);
-                perfil = new Integer(linea);
+                    //extraemos clave y perfil
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    clave = aux;
+                    linea = linea.substring(pos + 1);
+                    perfil = new Integer(linea);
 
-                Usuario miUsuario;
-                miUsuario = new Usuario(idUsuario, nombres, apellidos, clave, perfil);
-                misUsuarios[contUsuarios] = miUsuario;
-                contUsuarios++;
+                    Usuario miUsuario;
+                    miUsuario = new Usuario(idUsuario, nombres, apellidos, clave, perfil);
+                    misUsuarios[contUsuarios] = miUsuario;
+                    contUsuarios++;
 
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
 
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
+        } 
     }
 
     //usuarios

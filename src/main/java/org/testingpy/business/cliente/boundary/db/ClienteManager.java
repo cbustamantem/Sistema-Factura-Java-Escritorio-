@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import org.testingpy.business.cliente.entities.Cliente;
@@ -22,7 +23,7 @@ public class ClienteManager {
 
     private int maxCliente;
     private int contClientes;
-    private Cliente misClientes[] = new Cliente[maxCliente];
+    private Cliente misClientes[];
     private static ClienteManager instance;
 
     private ClienteManager() {
@@ -34,7 +35,7 @@ public class ClienteManager {
             instance = new ClienteManager();
             instance.init();
         }
-        
+
         return instance;
     }
 
@@ -43,113 +44,95 @@ public class ClienteManager {
         contClientes = 0;
         misClientes = new Cliente[maxCliente];
         instance.cargarClientes();
-
     }
 
     public void cargarClientes() {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
 
         try {
-            archivo = new File("Data/clientes.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            File archivo = new File("Data/clientes.txt");
+            try (FileReader fr = new FileReader(archivo); BufferedReader br = new BufferedReader(fr)) {
+                int pos;
+                String aux;
+                String linea;
 
-            int pos;
-            String aux;
-            String linea;
+                String idCliente;
+                int tipoIdentificacion;
+                String nombres;
+                String apellidos;
+                String direccion;
+                String telefono;
+                int idDistrito = 0;
+                Date fechaNacimiento;
+                Date fechaIngreso;
 
-            String idCliente;
-            int tipoIdentificacion;
-            String nombres;
-            String apellidos;
-            String direccion;
-            String telefono;
-            int idDistrito = 0;
-            Date fechaNacimiento;
-            Date fechaIngreso;
+                while ((linea = br.readLine()) != null) {
+                    //extraemos id cliente
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    idCliente = aux;
+                    linea = linea.substring(pos + 1);
 
-            while ((linea = br.readLine()) != null) {
-                //extraemos id cliente
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                idCliente = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos tipo identificacion
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    tipoIdentificacion = new Integer(aux);
+                    linea = linea.substring(pos + 1);
 
-                //extraemos tipo identificacion
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                tipoIdentificacion = new Integer(aux);
-                linea = linea.substring(pos + 1);
+                    //extraemos nombres
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    nombres = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos nombres
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                nombres = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos apellidos
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    apellidos = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos apellidos
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                apellidos = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos direccion
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    direccion = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos direccion
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                direccion = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos telefono
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    telefono = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos telefono
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                telefono = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos id distrito
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    idDistrito = new Integer(aux);
+                    linea = linea.substring(pos + 1);
 
-                //extraemos id distrito
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                idDistrito = new Integer(aux);
-                linea = linea.substring(pos + 1);
+                    //extraemos fecha nac. y fecha registro
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    fechaNacimiento = Utilidades.stringToDate(aux);
+                    linea = linea.substring(pos + 1);
+                    fechaIngreso = Utilidades.stringToDate(linea);
 
-                //extraemos fecha nac. y fecha registro
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                fechaNacimiento = Utilidades.stringToDate(aux);
-                linea = linea.substring(pos + 1);
-                fechaIngreso = Utilidades.stringToDate(linea);
-
-                Cliente miCliente;
-                miCliente = new Cliente(idCliente, tipoIdentificacion, nombres, apellidos, direccion, telefono,
-                        idDistrito, fechaNacimiento, fechaIngreso);
-                misClientes[contClientes] = miCliente;
-                contClientes++;
-
+                    Cliente miCliente;
+                    miCliente = new Cliente(idCliente, tipoIdentificacion, nombres, apellidos, direccion, telefono,
+                            idDistrito, fechaNacimiento, fechaIngreso);
+                    misClientes[contClientes] = miCliente;
+                    contClientes++;
+                }
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
 
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
         }
     }
 
     public void grabarClientes() {
-        FileWriter fw = null;
-        PrintWriter pw = null;
-
-        try {
-            fw = new FileWriter("Data/clientes.txt");
-            pw = new PrintWriter(fw);
+        try (FileWriter fw = new FileWriter("Data/clientes.txt");
+                PrintWriter pw = new PrintWriter(fw);) {
 
             for (int i = 0; i < contClientes; i++) {
                 pw.println(misClientes[i].toString());
@@ -157,66 +140,96 @@ public class ClienteManager {
 
         } catch (Exception ex1) {
             ex1.printStackTrace();
-
-        } finally {
-            try {
-                if (fw != null) {
-                    fw.close();
-                }
-
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-            }
         }
     }
 
     //clientes
     public Cliente[] getClientes() {
         return misClientes;
+
     }
 
     public int numeroClientes() {
         return contClientes;
+
     }
 
-    public int posicionCliente(String cliente) {
-        int aux = -1;
-        for (int i = 0; i < contClientes; i++) {
-            if (misClientes[i].getIdCliente().equals(cliente)) {
+    public int posicionCliente(String cliente
+    ) {
+        int aux
+                = -1;
+
+        for (int i
+                = 0; i
+                < contClientes;
+                i++) {
+            if (misClientes[i].getIdCliente().equals(cliente
+            )) {
                 return 1;
+
             }
         }
 
         return -1;
+
     }
 
-    public String agregarCliente(Cliente miCliente) {
-        if (contClientes == maxCliente) {
+    public String
+            agregarCliente(Cliente miCliente
+            ) {
+        if (contClientes
+                == maxCliente) {
             return "Se ha alcanzado el numbero maximo de clientes";
+
         }
 
         misClientes[contClientes] = miCliente;
+
         contClientes++;
+
         return "Cliente agregado correctamente";
+
     }
 
-    public String modificarCliente(Cliente miCliente, int pos) {
-        misClientes[pos].setTipoIdentificacion(miCliente.getTipoIdentificacion());
-        misClientes[pos].setNombres(miCliente.getNombres());
-        misClientes[pos].setApellidos(miCliente.getApellidos());
-        misClientes[pos].setDireccion(miCliente.getDireccion());
-        misClientes[pos].setTelefono(miCliente.getTelefono());
-        misClientes[pos].setIdDistrito(miCliente.getIdDistrito());
-        misClientes[pos].setFechaNacimiento(miCliente.getFechaIngreso());
-        misClientes[pos].setFechaIngreso(miCliente.getFechaNacimiento());
+    public String
+            modificarCliente(Cliente miCliente,
+                    int pos
+            ) {
+        misClientes[pos].setTipoIdentificacion(miCliente
+                .getTipoIdentificacion());
+        misClientes[pos].setNombres(miCliente
+                .getNombres());
+        misClientes[pos].setApellidos(miCliente
+                .getApellidos());
+        misClientes[pos].setDireccion(miCliente
+                .getDireccion());
+        misClientes[pos].setTelefono(miCliente
+                .getTelefono());
+        misClientes[pos].setIdDistrito(miCliente
+                .getIdDistrito());
+        misClientes[pos].setFechaNacimiento(miCliente
+                .getFechaIngreso());
+        misClientes[pos].setFechaIngreso(miCliente
+                .getFechaNacimiento());
+
         return "Cliente modificado correctamente";
+
     }
 
-    public String borrarCliente(int pos) {
-        for (int i = pos; i < contClientes - 1; i++) {
-            misClientes[i] = misClientes[i + 1];
+    public String
+            borrarCliente(int pos
+            ) {
+        for (int i
+                = pos;
+                i
+                < contClientes
+                - 1; i++) {
+            misClientes[i] = misClientes[i
+                    + 1];
+
         }
         contClientes--;
+
         return "Cliente borrado correctamente";
     }
 

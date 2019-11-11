@@ -47,12 +47,7 @@ public class ProductoManager {
     }
 
     public void grabarProductos() {
-        FileWriter fw = null;
-        PrintWriter pw = null;
-
-        try {
-            fw = new FileWriter("Data/productos.txt");
-            pw = new PrintWriter(fw);
+        try(FileWriter fw = new FileWriter("Data/productos.txt"); PrintWriter pw = new PrintWriter(fw);) {
 
             for (int i = 0; i < contProductos; i++) {
                 pw.println(misProductos[i].toString());
@@ -61,83 +56,62 @@ public class ProductoManager {
         } catch (Exception ex1) {
             ex1.printStackTrace();
 
-        } finally {
-            try {
-                if (fw != null) {
-                    fw.close();
-                }
-
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-            }
-        }
+        } 
     }
 
     public void cargarProductos() {
         File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
 
         try {
             archivo = new File("Data/productos.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            try (FileReader fr = new FileReader(archivo); BufferedReader br = new BufferedReader(fr);) {
 
-            int pos;
-            String aux;
-            String linea;
+                int pos;
+                String aux;
+                String linea;
 
-            String idProducto;
-            String descripcion;
-            int precio;
-            int IGV;
-            String nota;
+                String idProducto;
+                String descripcion;
+                int precio;
+                int IGV;
+                String nota;
 
-            while ((linea = br.readLine()) != null) {
-                //extraemos id producto
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                idProducto = aux;
-                linea = linea.substring(pos + 1);
+                while ((linea = br.readLine()) != null) {
+                    //extraemos id producto
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    idProducto = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos descripcion
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                descripcion = aux;
-                linea = linea.substring(pos + 1);
+                    //extraemos descripcion
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    descripcion = aux;
+                    linea = linea.substring(pos + 1);
 
-                //extraemos precio
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                precio = new Integer(aux);
-                linea = linea.substring(pos + 1);
+                    //extraemos precio
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    precio = new Integer(aux);
+                    linea = linea.substring(pos + 1);
 
-                //extraemos igv y nota
-                pos = linea.indexOf('|');
-                aux = linea.substring(0, pos);
-                IGV = new Integer(aux);
-                linea = linea.substring(pos + 1);
-                nota = linea;
+                    //extraemos igv y nota
+                    pos = linea.indexOf('|');
+                    aux = linea.substring(0, pos);
+                    IGV = new Integer(aux);
+                    linea = linea.substring(pos + 1);
+                    nota = linea;
 
-                Producto miproProducto;
-                miproProducto = new Producto(idProducto, descripcion, precio, IGV, nota);
-                misProductos[contProductos] = miproProducto;
-                contProductos++;
+                    Producto miproProducto;
+                    miproProducto = new Producto(idProducto, descripcion, precio, IGV, nota);
+                    misProductos[contProductos] = miproProducto;
+                    contProductos++;
 
+                }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
 
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
         }
     }
 

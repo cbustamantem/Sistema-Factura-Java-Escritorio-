@@ -398,50 +398,24 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         if (rpta != 0) {
             return;
         }
-
-        // adicionamos un consecutivo a la factura
-        int numFac = facturaMgr.getNumFac() + 1;
-
-        //grabamos la factura
-        FileWriter fw = null;
-        PrintWriter pw = null;
-        try {
-            fw = new FileWriter("Data/facturas.txt", true);
-            pw = new PrintWriter(fw);
-
-            //encabezado de factura
-            String aux = "1|"
-                    + numFac + "|"
+        String encabezado = "1|"
+                    + facturaMgr.getNumFac() + "|"
                     + ((Opcion) cboCliente.getSelectedItem()).getValor() + "|"
                     + ((Opcion) cboCliente.getSelectedItem()).getDescripcion() + "|"
                     + txtFecha.getText();
-            pw.println(aux);
-
-            //detalle de factura
+         //detalle de factura
             int num = tblFactura.getRowCount();
+            String detalle[] = new String[num];
             for (int i = 0; i < num; i++) {
-                aux = "2|"
+                detalle[i] = "2|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 0)) + "|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 1)) + "|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 2)) + "|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 3)) + "|"
                         + Utilidades.objectToString(tblFactura.getValueAt(i, 4));
-                pw.println(aux);
+                
             }
-
-        } catch (Exception ex1) {
-            ex1.printStackTrace();
-
-        } finally {
-            try {
-                if (fw != null) {
-                    fw.close();
-                }
-
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-            }
-        }
+        int numFac = facturaMgr.grabarFactura(encabezado,detalle);
 
         JOptionPane.showMessageDialog(rootPane, "Factura " + numFac + " generada con éxito");
         facturaMgr.setNumFac(numFac);
@@ -455,6 +429,8 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         cboCliente.requestFocusInWindow();
 
     }//GEN-LAST:event_btnGrabarActionPerformed
+
+    
     private void btnBorrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodoActionPerformed
         int rpta = JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de borrar el detalle de la factura?");
         if (rpta != 0) {
