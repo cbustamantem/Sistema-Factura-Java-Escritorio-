@@ -5,11 +5,6 @@
  */
 package org.testingpy.business.usuario.boundary.db;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.List;
 import org.testingpy.business.usuario.entities.Usuario;
 import org.testingpy.clases.DataHandler;
@@ -33,7 +28,7 @@ public class UsuarioManager {
     private UsuarioManager() {
         super();
     }
-
+    
     public UsuarioManager(DataHandler dataMgr) {
         super();
         this.dataMgr = dataMgr;
@@ -104,6 +99,7 @@ public class UsuarioManager {
 
         misUsuarios[contUsuarios] = miUsuario;
         contUsuarios++;
+        grabarUsuarios();
         return "Usuario agregado";
     }
 

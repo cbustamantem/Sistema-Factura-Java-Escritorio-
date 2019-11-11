@@ -71,7 +71,7 @@ public class DataHandlerImpl implements Closeable, DataHandler {
         try (FileWriter fw = new FileWriter(fileName);
                 PrintWriter pw = new PrintWriter(fw);) {
             for(String line : content)
-                pw.println(content);
+                pw.println(line);
             return true;
         } catch (Exception ex1) {
             ex1.printStackTrace();
