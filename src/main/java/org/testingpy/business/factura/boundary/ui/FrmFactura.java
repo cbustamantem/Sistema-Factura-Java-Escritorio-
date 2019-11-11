@@ -335,18 +335,32 @@ public class FrmFactura extends javax.swing.JInternalFrame {
             cboCliente.addItem(opc);
         }
     }
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+    
+    
+    private boolean validarIngresoCantidad(){
         if (txtCantidad.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar un cantidad");
             txtCantidad.requestFocusInWindow();
-            return;
+            return true;
         }
         if (!Utilidades.isNumeric(txtCantidad.getText())) {
             JOptionPane.showMessageDialog(rootPane, "Debe digitar un valor numérico");
             txtCantidad.requestFocusInWindow();
-            return;
+            return true;
         }
+        return false;
+    }
+    private boolean validarIngresoCantidadPositiva(int cantidad){
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(rootPane, "Debe digitar un valor mayor a 0");
+            txtCantidad.requestFocusInWindow();
+            return true;
+        }
+        return false;
+    }
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        if (validarIngresoCantidad()) return;
 
         int cantidad = Integer.parseInt(txtCantidad.getText());
         if (cantidad <= 0) {

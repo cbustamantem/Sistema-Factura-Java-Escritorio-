@@ -10,7 +10,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.List;
 import org.testingpy.business.usuario.entities.Usuario;
+import org.testingpy.clases.DataHandler;
+import org.testingpy.clases.DataHandlerImpl;
 
 /**
  *
@@ -25,8 +28,16 @@ public class UsuarioManager {
 
     private static UsuarioManager instance;
 
+    private DataHandler dataMgr;
+
     private UsuarioManager() {
         super();
+    }
+
+    public UsuarioManager(DataHandler dataMgr) {
+        super();
+        this.dataMgr = dataMgr;
+        init();
     }
 
     public static UsuarioManager getInstance() {
@@ -42,81 +53,48 @@ public class UsuarioManager {
         maxUsuario = 50;
         contUsuarios = 0;
         misUsuarios = new Usuario[maxUsuario];
+        if (dataMgr == null) {
+            dataMgr = new DataHandlerImpl("Data/usuario.txt");
+        }
+
         cargarUsuarios();
     }
 
-    public void grabarUsuarios() {
-        
-        try (FileWriter fw = new FileWriter("Data/usuario.txt");
-            PrintWriter pw = new PrintWriter(fw);){
-
-            for (int i = 0; i < contUsuarios; i++) {
-                pw.println(misUsuarios[i].toString());
-            }
-
-        } catch (Exception ex1) {
-            ex1.printStackTrace();
-
+    private String[] convertirCadenaUsuarios() {
+        String usuarios[] = new String[contUsuarios];
+        for (int i = 0; i < contUsuarios; i++) {
+            usuarios[i] = misUsuarios[i].toString();
         }
+        return usuarios;
+    }
+
+    public void grabarUsuarios() {
+        dataMgr.saveContentToFile(convertirCadenaUsuarios());
 
     }
 
     public void cargarUsuarios() {
-        File archivo = null;
 
         try {
-            archivo = new File("Data/usuario.txt");
-            try (FileReader fr = new FileReader(archivo); BufferedReader br = new BufferedReader(fr);) {
-
-                int pos;
-                String aux;
-                String linea;
-
-                String idUsuario;
-                String nombres;
-                String apellidos;
-                String clave;
-                int perfil;
-
-                while ((linea = br.readLine()) != null) {
-                    //extraemos id usuario
-                    pos = linea.indexOf('|');
-                    aux = linea.substring(0, pos);
-                    idUsuario = aux;
-                    linea = linea.substring(pos + 1);
-
-                    //extraemos nombres
-                    pos = linea.indexOf('|');
-                    aux = linea.substring(0, pos);
-                    nombres = aux;
-                    linea = linea.substring(pos + 1);
-
-                    //extraemos apellidos
-                    pos = linea.indexOf('|');
-                    aux = linea.substring(0, pos);
-                    apellidos = aux;
-                    linea = linea.substring(pos + 1);
-
-                    //extraemos clave y perfil
-                    pos = linea.indexOf('|');
-                    aux = linea.substring(0, pos);
-                    clave = aux;
-                    linea = linea.substring(pos + 1);
-                    perfil = new Integer(linea);
-
-                    Usuario miUsuario;
-                    miUsuario = new Usuario(idUsuario, nombres, apellidos, clave, perfil);
-                    misUsuarios[contUsuarios] = miUsuario;
-                    contUsuarios++;
-
-                }
+            List<String> contenidoArchivo = dataMgr.readFileContent();
+            
+            for (String linea : contenidoArchivo) {
+                String campos[] = linea.split("\\|");
+                String idUsuario = campos[0];
+                String nombres= campos[1];
+                String apellidos= campos[2];
+                String clave =campos[3];
+                int perfil = Integer.parseInt(campos[4]);
+                Usuario miUsuario;
+                miUsuario = new Usuario(idUsuario, nombres, apellidos, clave, perfil);
+                misUsuarios[contUsuarios] = miUsuario;
+                contUsuarios++;
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
-
-        } 
-    }
+        }
+    }   
 
     //usuarios
     public String agregarUsuario(Usuario miUsuario) {
