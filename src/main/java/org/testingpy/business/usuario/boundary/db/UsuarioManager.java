@@ -72,7 +72,7 @@ public class UsuarioManager {
 
         try {
             List<String> contenidoArchivo = dataMgr.readFileContent();
-            
+            misUsuarios = new Usuario[contenidoArchivo.size()];
             for (String linea : contenidoArchivo) {
                 String campos[] = linea.split("\\|");
                 String idUsuario = campos[0];
