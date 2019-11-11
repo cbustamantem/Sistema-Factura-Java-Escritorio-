@@ -4,8 +4,6 @@ import org.testingpy.business.producto.boundary.ui.FrmBusquedaProducto;
 import org.testingpy.business.cliente.boundary.ui.FrmBusquedaCliente;
 import org.testingpy.business.opcion.entities.Opcion;
 import org.testingpy.clases.Utilidades;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -307,22 +305,10 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         // Cargamos los clientes
         Opcion opc;
 
-        for (int i = 0; i < clienteMgr.numeroClientes(); i++) {
-            opc = new Opcion(clienteMgr.getClientes()[i].getIdCliente(),
-                    clienteMgr.getClientes()[i].getNombres() + " " + clienteMgr.getClientes()[i].getApellidos());
-            cboCliente.addItem(opc);
-        }
-
-        // Cargamos los productos
-        for (int i = 0; i < productoMgr.numeroProductos(); i++) {
-            opc = new Opcion(productoMgr.getProductos()[i].getIdProducto(),
-                    productoMgr.getProductos()[i].getDescripcion());
-            cboProducto.addItem(opc);
-        }
-
+        cargarListaClientes();
+        cargarListaProductos();
         // Colocamos fecha del sistema
         txtFecha.setText(Utilidades.formatDate(new Date()));
-
         // Mostramos totales en 0
         txtTotalCantidad.setText("0");
         txtTotalValor.setText("0");
@@ -330,17 +316,27 @@ public class FrmFactura extends javax.swing.JInternalFrame {
         // Cargamos la tabla
         llenarTabla();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void cargarListaProductos() {
+        Opcion opc;
+        // Cargamos los productos
+        for (int i = 0; i < productoMgr.numeroProductos(); i++) {
+            opc = new Opcion(productoMgr.getProductos()[i].getIdProducto(),
+                    productoMgr.getProductos()[i].getDescripcion());
+            cboProducto.addItem(opc);
+        }
+    }
+
+    private void cargarListaClientes() {
+        Opcion opc;
+        for (int i = 0; i < clienteMgr.numeroClientes(); i++) {
+            opc = new Opcion(clienteMgr.getClientes()[i].getIdCliente(),
+                    clienteMgr.getClientes()[i].getNombres() + " " + clienteMgr.getClientes()[i].getApellidos());
+            cboCliente.addItem(opc);
+        }
+    }
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-//        if (cboProducto.getSelectedIndex() == 0) {
-//            JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un producto");
-//            cboProducto.requestFocusInWindow();
-//            return;
-//        }
-//        if (cboCliente.getSelectedIndex() == 0) {
-//            JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un cliente");
-//            cboCliente.requestFocusInWindow();
-//            return;
-//        }
+
         if (txtCantidad.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar un cantidad");
             txtCantidad.requestFocusInWindow();
@@ -381,11 +377,7 @@ public class FrmFactura extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnAgregarActionPerformed
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
-//        if (cboCliente.getSelectedIndex() == 0) {
-//            JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un cliente");
-//            cboCliente.requestFocusInWindow();
-//            return;
-//        }
+
 
         int totCan = new Integer(txtTotalCantidad.getText());
         if (totCan == 0) {
